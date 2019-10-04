@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <string.h>
+#include<string>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+
+struct node
+{
+    int x;
+    int y;
+};
+vector<struct node>A,B;
+double mn=10000.0;
+
+
+double cost(struct node a, struct node b)
+{
+    return (sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y))+16);
+}
+
+
+void solve(int l, int h)
+{
+    if(l==h)
+    {
+        double temp=0;
+        for(int i=0; i<A.size()-1; i++)
+            temp+=cost(A[i],A[i+1]);
+        if(temp<mn)
+        {
+            mn=temp;
+            B.clear();
+            B=A;
+        }
+    }
+    else
+    {
+        for(int i=l; i<=h; i++)
+        {
+            struct node temp=A[l];
+            A[l]=A[i];
+            A[i]=temp;
+            solve(l+1,h);
+            temp=A[l];
+            A[l]=A[i];
+            A[i]=temp;
+        }
+    }
+}
+/* Driver program to test above functions */
+int main()
+{
+    int t,n,f=1;
+    double sum=0;
+    struct node temp,temp1;
+    while(1)
+    {
+        scanf("%d",&n);
+        if(n==0)
+            break;
+        printf("**********************************************************\n");
+        printf("Network #%d\n",f++);
+        for(int i=0; i<n; i++)
+        {
+            scanf("%d%d",&temp.x,&temp.y);
+            A.push_back(temp);
+        }
+        //sort(A.begin(),A.end(),cmp);
+        sum=0;
+        mn=10000.0;
+        solve(0,A.size()-1);
+        for(int i=0; i<B.size()-1; i++)
+        {
+            double c=cost(B[i],B[i+1]);
+            sum+=c;
+            printf("Cable requirement to connect (%d,%d) to (%d,%d) is %0.2f feet.\n",B[i].x,B[i].y,B[i+1].x,B[i+1].y,c);
+        }
+        A.clear();
+        B.clear();
+        printf("Number of feet of cable required is %0.2f.\n",sum);
+    }
+    return 0;
+}
