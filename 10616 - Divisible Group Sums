@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include<algorithm>
+#include<cstring>
+#include<vector>
+#include<cmath>
+using namespace std;
+int dp[205][25][15];
+int W[205];
+
+int mod(int a, int b)
+{
+    if(a<0)
+        return a%b+b;
+    else
+        return a%b;
+}
+int knapsack(int n,int sum, int k, int d)
+{
+    if(sum==0 && k==0)
+        dp[n][sum][k]=1;
+    else if(k==0)
+        dp[n][sum][k]=0;
+    else if(n==0)
+        dp[n][sum][k]=0;
+    if(dp[n][sum][k]!=-1)
+        return dp[n][sum][k];
+    dp[n][sum][k]=knapsack(n-1,mod(sum+mod(W[n],d),d), k-1, d) + knapsack(n-1, mod(sum,d), k, d);
+    return dp[n][sum][k];
+}
+
+int main()
+{
+    int n,q,k,t=1;
+    while(1)
+    {
+        scanf("%d%d",&n,&q);
+        if(n==0 && q==0)
+            break;
+        printf("SET %d:\n",t++);
+        for(int i=1;i<=n;i++)
+            scanf("%d",&W[i]);
+        int d,m;
+        for(int i=1;i<=q;i++)
+        {
+            memset(dp,-1,sizeof(dp));
+            scanf("%d%d",&d,&m);
+            printf("QUERY %d: %d\n",i,knapsack(n,0,m,d));
+        }
+    }
+
+
+    return 0;
+}
