@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int dp[105][25005];
+int W[105];
+
+int subsetSum(int n, int w)
+{
+    if(n==0 || w==0)
+        dp[n][w]=0;
+    if(dp[n][w]!=-1)
+        return dp[n][w];
+    if(W[n]>w)
+        dp[n][w]=subsetSum(n-1,w);
+    else
+        dp[n][w]=max(W[n]+subsetSum(n-1,w-W[n]),subsetSum(n-1,w));
+    return dp[n][w];
+}
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        int s=0,n;
+        scanf("%d",&n);
+        memset(dp,-1,sizeof(dp));
+        for(int i=1;i<=n;i++)
+        {
+            scanf("%d",&W[i]);
+            s+=W[i];
+        }
+        printf("%d\n",s-2*subsetSum(n,s/2));
+    }
+}
