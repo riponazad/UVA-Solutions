@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <string.h>
+#include<string>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+
+struct node
+{
+    int x;
+    int y;
+};
+vector<struct node>A,B;
+int mn=10000;
+
+double cost(struct node a, struct node b)
+{
+    return abs(a.x-b.x)+abs(a.y-b.y);
+}
+
+void solve(int l, int h)
+{
+    if(l==h)
+    {
+        double temp=0;
+        for(int i=0; i<A.size(); i++)
+        {
+            if(i==A.size()-1)
+            {
+                temp+=cost(A[i],A[0]);
+            }
+            else
+            temp+=cost(A[i],A[i+1]);
+        }
+        if(temp<mn)
+        {
+            mn=temp;
+            B.clear();
+            B=A;
+        }
+    }
+    else
+    {
+        for(int i=l; i<=h; i++)
+        {
+            struct node temp=A[l];
+            A[l]=A[i];
+            A[i]=temp;
+            solve(l+1,h);
+            temp=A[l];
+            A[l]=A[i];
+            A[i]=temp;
+        }
+    }
+}
+/* Driver program to test above functions */
+int main()
+{
+    int t,n,f=1,b,sum=0;
+    struct node temp,temp1;
+    scanf("%d",&n);
+    while(n--)
+    {
+        scanf("%d%d",&temp.x,&temp.y);
+        scanf("%d%d",&temp.x,&temp.y);
+        A.push_back(temp);
+        scanf("%d",&b);
+        for(int i=0; i<b; i++)
+        {
+            scanf("%d%d",&temp.x,&temp.y);
+            A.push_back(temp);
+        }
+        sum=0;
+        mn=10000;
+        solve(0,A.size()-1);
+        for(int i=0; i<B.size()-1; i++)
+        {
+            double c=cost(B[i],B[i+1]);
+            sum+=c;
+        }
+        sum+=cost(B[0],B[B.size()-1]);
+        A.clear();
+        B.clear();
+        printf("The shortest path has length %d\n",sum);
+    }
+    return 0;
+}
