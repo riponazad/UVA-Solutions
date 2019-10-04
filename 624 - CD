@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int dp[21][100001];
+int b[101];
+int W[21];
+vector<int>path_index;
+
+
+int subsetSum(int n, int w)
+{
+    if(n==0 || w==0)
+        dp[n][w]=0;
+    if(dp[n][w]!=-1)
+        return dp[n][w];
+    if(W[n]>w)
+        dp[n][w]=subsetSum(n-1,w);
+    else
+        dp[n][w]=max(W[n]+subsetSum(n-1,w-W[n]),subsetSum(n-1,w));
+    return dp[n][w];
+}
+int main()
+{
+    int t,n,w,m,s;
+    while(scanf("%d%d",&s,&n)==2)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            scanf("%d",&W[i]);
+        }
+        memset(dp,-1,sizeof(dp));
+        int sum=subsetSum(n,s);
+        while(n && s)
+        {
+            if(dp[n][s]!=dp[n-1][s])
+            {
+                path_index.push_back(n);
+                s-=W[n];
+            }
+            n--;
+        }
+        for(int i=path_index.size()-1;i>=0;i--)
+        {
+            printf("%d ",W[path_index[i]]);
+        }
+        printf("sum:%d\n",sum);
+        path_index.clear();
+    }
+
+}
