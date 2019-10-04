@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main()
+{
+    int t,n,h,i,f=1;
+    char str[20];
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d",&n,&h);
+        int temp=n-h;
+        for(i=0;i<n-h;i++)
+            str[i]='0';
+        for(;i<n;i++)
+            str[i]='1';
+        str[i]='\0';
+        temp=h;
+        if(f==0)
+            printf("\n");
+        else
+            f=0;
+        do
+        {
+            printf("%s\n",str);
+        }while(next_permutation(str,str+n));
+    }
+}
