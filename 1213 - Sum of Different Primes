@@ -45,7 +45,7 @@ int knapsack(int n,int k, int indx)
     else if(n==0 || k==0)
         dp[n][k][indx]=0;
     else if(W[indx]>n)
-        dp[n][k][indx]=0;
+        dp[n][k][indx]=0;  // it should be dp[n][k][w]=knapsack(n,k,indx+1) if W is not sorted.
     if(dp[n][k][indx]!=-1)
         return dp[n][k][indx];
     dp[n][k][indx]=knapsack(n-W[indx],k-1,indx+1) + knapsack(n,k,indx+1);
