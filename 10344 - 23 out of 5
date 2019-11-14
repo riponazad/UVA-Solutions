@@ -1,0 +1,76 @@
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<vector>
+#include<cmath>
+
+using namespace std;
+
+int tup[5];
+bool x;
+
+bool shouldDuplicate(int low,int cur)
+{
+    for(int i=low; i<cur; i++)
+    {
+        if(tup[i]==tup[cur])
+            return false;
+    }
+    return true;
+}
+
+
+bool search23(int n, int t)
+{
+    if(n==5)
+    {
+        if(t==23)
+            return true;
+        else return false;
+    }
+    return search23(n+1,t+tup[n]) || search23(n+1,t-tup[n]) || search23(n+1,t*tup[n]);
+}
+void solve(int l, int h)
+{
+    if(l==h)
+    {
+        if(search23(1,tup[0]))
+        {
+            x=true;
+            return;
+        }
+    }
+    else
+    {
+        for(int i=l; i<=h; i++)
+        {
+            if(shouldDuplicate(l,i))
+            {
+                int tmp = tup[l];
+                tup[l]=tup[i];
+                tup[i]=tmp;
+                solve(l+1,h);
+                tmp = tup[l];
+                tup[l]=tup[i];
+                tup[i]=tmp;
+            }
+        }
+    }
+}
+int main()
+{
+    while(1)
+    {
+        scanf("%d%d%d%d%d",&tup[0],&tup[1],&tup[2],&tup[3],&tup[4]);
+        if(tup[0]==0 && tup[1]==0 && tup[2]==0 && tup[3]==0 && tup[4]==0)
+            break;
+        x=false;
+        solve(0,4);
+        if(x==true)
+        {
+            printf("Possible\n");
+        }
+        else
+            printf("Impossible\n");
+    }
+}
