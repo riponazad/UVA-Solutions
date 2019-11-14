@@ -1,0 +1,69 @@
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<vector>
+#include<cmath>
+
+using namespace std;
+
+struct node{
+    int x;
+    int y;
+};
+
+struct node A[8];
+int t=1;
+
+bool isAttack(int row, int col)
+{
+    if(col==0)
+        return false;
+    for(int i=0;i<col;i++)
+    {
+        if(A[i].x==row || A[i].y==col)
+            return true;
+        if(abs(A[i].x-row)==abs(A[i].y-col))
+            return true;
+    }
+    return false;
+}
+
+void solve(int col, int x, int y)
+{
+    if(col==8)
+    {
+        if(A[y].x==x)
+            printf("%2d      %d %d %d %d %d %d %d %d\n",t++,A[0].x+1,A[1].x+1,A[2].x+1,A[3].x+1,A[4].x+1,A[5].x+1,A[6].x+1,A[7].x+1);
+    }
+    else
+    {
+        for(int i=0; i<8; i++)
+        {
+            if(!isAttack(i,col))
+            {
+                A[col].x=i;
+                A[col].y=col;
+                solve(col+1,x,y);
+            }
+        }
+    }
+}
+int main()
+{
+    int n,x,y,f=0;
+    scanf("%d",&n);
+    while(n--)
+    {
+        t=1;
+        scanf("%d%d",&x,&y);
+        x--;
+        y--;
+        if(f)
+            printf("\n");
+        f=1;
+        printf("SOLN       COLUMN\n");
+        printf(" #      1 2 3 4 5 6 7 8\n\n");
+        solve(0,x,y);
+
+    }
+}
