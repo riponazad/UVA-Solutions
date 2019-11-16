@@ -1,0 +1,81 @@
+#include<cstdio>
+#include<iostream>
+
+using namespace std;
+
+struct node
+{
+    int x;
+    int y;
+};
+
+struct node ans[8];
+char board[8][8];
+
+int main()
+{
+    bool x;
+    char input[]="@IEHOVA#";
+    int t,m,n;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d",&m,&n);
+        for(int i=0; i<m; i++)
+        {
+          scanf("%s",board[i]);
+//            for(int j=0; j<n; j++)
+//            {
+//                scanf("%c",&board[i][j]);
+//            }
+        }
+
+        for(int k=0; k<8; k++)
+        {
+            x=false;
+            for(int i=0; i<m; i++)
+            {
+                for(int j=0; j<n; j++)
+                {
+                    if(input[k]==board[i][j])
+                    {
+                      ans[k].x=i;
+                      ans[k].y=j;
+                      x=true;
+                      break;
+                    }
+                }
+                if(x==true)
+                  break;
+            }
+        }
+//        for(int i=0;i<8;i++)
+//          printf("%d,%d ",ans[i].x,ans[i].y);
+
+        for(int i=0;i<7;i++)
+        {
+          for(int j=0;j<ans[i].x-ans[i+1].x;j++)
+          {
+            if(i==6)
+              printf("forth\n");
+            else
+              printf("forth ");
+          }
+          if(ans[i].y-ans[i+1].y<0)
+          {
+            if(i==6)
+              printf("right\n");
+            else
+              printf("right ");
+          }
+          else if(ans[i].y-ans[i+1].y>0)
+          {
+            if(i==6)
+              printf("left\n");
+            else
+              printf("left ");
+          }
+        }
+
+    }
+}
