@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[26][26];
+int longestPath,n;
+void dfs(int node, int p)
+{
+    if(longestPath<p)
+        longestPath=p;
+    for(int i=0;i<n;i++)
+    {
+        if(g[node][i]==1)
+        {
+            g[node][i]=0;
+            g[i][node]=0;
+            dfs(i,p+1);
+            g[node][i]=1;
+            g[i][node]=1;
+        }
+    }
+}
+
+
+int main()
+{
+    int m,x,y;
+    while(1)
+    {
+        scanf("%d%d",&n,&m);
+        if(n==0 && m==0)
+            break;
+        memset(g,0,sizeof(g));
+        for(int i=0;i<m;i++)
+        {
+            scanf("%d%d",&x,&y);
+            g[x][y]=1;
+            g[y][x]=1;
+        }
+        longestPath=0;
+        for(int i=0;i<n;i++)
+        {
+            dfs(i,0);
+        }
+        printf("%d\n",longestPath);
+    }
+}
