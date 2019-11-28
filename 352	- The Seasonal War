@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[30][30], n;
+string str;
+
+void dfs(int x, int y)
+{
+    if(x>=0 && x<n && y>=0 && y<n && g[x][y]==1)
+    {
+        g[x][y]=0;
+        dfs(x-1,y-1);
+        dfs(x-1,y);
+        dfs(x-1,y+1);
+        dfs(x,y-1);
+        dfs(x,y+1);
+        dfs(x+1,y);
+        dfs(x+1,y+1);
+        dfs(x+1,y-1);
+    }
+}
+
+
+int main()
+{
+    int cas=1;;
+    while(scanf("%d",&n)==1)
+    {
+        for(int i=0;i<n;i++)
+        {
+            cin>>str;
+            for(int j=0;j<n;j++)
+            {
+                if(str[j]=='1')
+                    g[i][j]=1;
+                else
+                    g[i][j]=0;
+            }
+        }
+        int cnt=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(g[i][j]==1)
+                {
+                  cnt++;
+                  dfs(i,j);
+                }
+            }
+        }
+        printf("Image number %d contains %d war eagles.\n",cas++,cnt);
+    }
+}
