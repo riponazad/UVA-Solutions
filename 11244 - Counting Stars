@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[103][103], m,n,ch;
+string str;
+
+void dfs(int x, int y)
+{
+    if(x>=0 && x<m && y>=0 && y<n && g[x][y]==1)
+    {
+        ch++;
+        g[x][y]=0;
+        dfs(x-1,y-1);
+        dfs(x-1,y);
+        dfs(x-1,y+1);
+        dfs(x,y-1);
+        dfs(x,y+1);
+        dfs(x+1,y);
+        dfs(x+1,y+1);
+        dfs(x+1,y-1);
+    }
+}
+
+
+int main()
+{
+    int cas=1;;
+    while(1)
+    {
+        scanf("%d%d",&m,&n);
+        if(m==0)
+            break;
+        for(int i=0;i<m;i++)
+        {
+            cin>>str;
+            for(int j=0;j<n;j++)
+            {
+                if(str[j]=='*')
+                    g[i][j]=1;
+                else
+                    g[i][j]=0;
+            }
+        }
+        int cnt=0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                ch=0;
+                if(g[i][j]==1)
+                {
+                  dfs(i,j);
+                  if(ch==1)
+                    cnt++;
+                }
+            }
+        }
+        printf("%d\n",cnt);
+    }
+}
