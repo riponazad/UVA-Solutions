@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[105][105],n,m,sum;
+bool vis[105][105];
+char str[105];
+
+void dfs(int x, int y)
+{
+    if(x>=0 && x<n && y>=0 && y<m && g[x][y]==1 && !vis[x][y])
+    {
+        sum++;
+        vis[x][y]=true;
+        //g[x][y]=0;
+        dfs(x-1,y);
+        dfs(x-1,y-1);
+        dfs(x-1,y+1);
+        dfs(x,y-1);
+        dfs(x,y+1);
+        dfs(x+1,y);
+        dfs(x+1,y-1);
+        dfs(x+1,y+1);
+    }
+}
+
+
+int main()
+{
+    int cas=1,t;
+    scanf("%d\n\n",&t);
+    while(t--)
+    {
+        if(cas!=1)
+            printf("\n");
+        int i=0,j;
+        while(gets(str))
+        {
+            if(str[0]=='\0')
+                break;
+            if(str[0]!='L' && str[0]!='W')
+            {
+
+                n=i;
+                m=j;
+                int x,y;
+                sscanf(str,"%d %d",&x,&y);
+                memset(vis,false,sizeof(vis));
+                sum=0;
+                dfs(x-1,y-1);
+
+
+                printf("%d\n",sum);
+
+
+            }
+            else
+            {
+                for(j=0; j<strlen(str); j++)
+                {
+                    if(str[j]=='W')
+                        g[i][j]=1;
+                    else
+                        g[i][j]=0;
+                }
+                i++;
+            }
+        }
+        cas++;
+
+    }
+}
