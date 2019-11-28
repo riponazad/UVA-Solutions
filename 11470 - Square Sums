@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[13][13], m,n,sum;
+string str;
+
+void dfs(int x, int y)
+{
+    for(int i=x;i<m-x;i++)
+    {
+        sum+=g[i][y]+g[i][m-y-1];
+    }
+    for(int i=y+1;i<m-y-1;i++)
+    {
+        sum+=g[x][i]+g[m-x-1][i];
+    }
+}
+
+
+int main()
+{
+    int cas=1;;
+    while(1)
+    {
+        scanf("%d",&m);
+        if(m==0)
+            break;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                scanf("%d",&g[i][j]);
+            }
+        }
+        printf("Case %d:",cas++);
+        for(int i=0;i<m/2;i++)
+        {
+            sum=0;
+            dfs(i,i);
+            printf(" %d",sum);
+        }
+        if(m%2!=0)
+        {
+            printf(" %d",g[m/2][m/2]);
+        }
+        printf("\n");
+    }
+}
