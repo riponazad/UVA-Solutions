@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char g[100][100];
+int n,m,sum;
+string str;
+vector<pair<int, char> >mp;
+map<char,bool>mapc;
+
+bool check(int x, int y)
+{
+    if(x+1>=0 && x+1<m && y>=0 && y<n && g[x+1][y]=='T')
+        return true;
+    if(x-1>=0 && x-1<m && y>=0 && y<n && g[x-1][y]=='T')
+        return true;
+    if(x>=0 && x<m && y+1>=0 && y+1<n && g[x][y+1]=='T')
+        return true;
+    if(x>=0 && x<m && y-1>=0 && y-1<n && g[x][y-1]=='T')
+        return true;
+    return false;
+}
+
+void dfs(int x, int y)
+{
+    if(x>=0 && x<m && y>=0 && y<n && g[x][y]!='#')
+    {
+        //printf("yes");
+        if(g[x][y]=='G')
+            sum++;
+        g[x][y]='#';
+        if(!check(x,y))
+        {
+            dfs(x-1,y);
+            //dfs(x-1,y-1,ch);
+            //dfs(x-1,y+1,ch);
+            dfs(x,y-1);
+            dfs(x,y+1);
+            dfs(x+1,y);
+            //dfs(x+1,y-1,ch);
+            //dfs(x+1,y+1,ch);
+        }
+    }
+}
+
+
+
+int main()
+{
+    int cas=1,t,x,y;
+    while(scanf("%d%d",&n,&m)==2)
+    {
+        bool chk=false;
+        for(int i=0; i<m; i++)
+        {
+            cin>>g[i];
+            if(!chk)
+            {
+                for(int j=0; j<strlen(g[i]); j++)
+                {
+                    if(g[i][j]=='P')
+                    {
+                        x=i;
+                        y=j;
+                        chk=true;
+                        break;
+                    }
+                }
+            }
+        }
+//        for(int i=0;i<m;i++)
+//        {
+//            for(int j=0;j<n;j++)
+//                printf("%c ",g[i][j]);
+//            printf("\n");
+//        }
+//        printf("%d %d",x,y);
+        sum=0;
+        dfs(x,y);
+        printf("%d\n",sum);
+    }
+}
+
+
+
