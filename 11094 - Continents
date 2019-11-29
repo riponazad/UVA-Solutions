@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char g[21][21];
+int n,m,sum;
+string str;
+vector<pair<int, char> >mp;
+map<char,bool>mapc;
+
+int mod(int y)
+{
+    if(y<0)
+        return y+m;
+    else if(y>=m)
+        return 0;
+    else
+        return y;
+}
+
+void dfs(int x, int y, char ch)
+{
+    if(x>=0 && x<n && y>=0 && y<m && g[x][y]==ch)
+    {
+        //printf("yes");
+        sum++;
+        g[x][y]=' ';
+        dfs(x-1,y, ch);
+        //dfs(x-1,y-1,ch);
+        //dfs(x-1,y+1,ch);
+        dfs(x,mod(y-1), ch);
+        dfs(x,mod(y+1), ch);
+        dfs(x+1,y, ch);
+        //dfs(x+1,y-1,ch);
+        //dfs(x+1,y+1,ch);
+
+    }
+}
+
+
+
+int main()
+{
+    int cas=1,t,x,y;
+    while(scanf("%d%d",&n,&m)==2)
+    {
+        for(int i=0; i<n; i++)
+        {
+            cin>>g[i];
+        }
+        scanf("%d%d",&x,&y);
+        char ch = g[x][y];
+        int maxs=0;
+        sum=0;
+        dfs(x,y,ch);
+
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(g[i][j]==ch)
+                {
+                    sum=0;
+                    dfs(i,j,ch);
+                    maxs = max(maxs,sum);
+                }
+            }
+        }
+        printf("%d\n",maxs);
+    }
+}
+
+
+
