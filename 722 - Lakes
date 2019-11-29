@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int g[105][105],n,m,sum;
+string str;
+
+void dfs(int x, int y)
+{
+    if(x>=0 && x<n && y>=0 && y<m && g[x][y]==1)
+    {
+        sum++;
+        g[x][y]=0;
+        dfs(x-1,y);
+        //dfs(x-1,y-1);
+        //dfs(x-1,y+1);
+        dfs(x,y-1);
+        dfs(x,y+1);
+        dfs(x+1,y);
+       // dfs(x+1,y-1);
+        //dfs(x+1,y+1);
+    }
+}
+
+
+int main()
+{
+    int cas=1,t,x,y;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d",&x,&y);
+        getline(cin,str);
+        int i=0,j;
+        while(1)
+        {
+            if(!getline(cin,str) || str.empty())
+                break;
+            for(j=0;j<str.length();j++)
+            {
+                if(str[j]=='0')
+                    g[i][j]=1;
+                else
+                    g[i][j]=0;
+            }
+            i++;
+        }
+        n=i;
+        m=j;
+        sum=0;
+        dfs(x-1,y-1);
+        if(cas!=1)
+            printf("\n");
+        printf("%d\n",sum);
+        cas++;
+    }
+}
