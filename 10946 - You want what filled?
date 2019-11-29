@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char g[55][55];
+int n,m,sum;
+string str;
+vector<pair<int, char> >mp;
+
+
+void dfs(int x, int y, char ch)
+{
+    if(x>=0 && x<n && y>=0 && y<m && g[x][y]==ch)
+    {
+        sum++;
+        g[x][y]='.';
+        dfs(x-1,y,ch);
+        //dfs(x-1,y-1,ch);
+        //dfs(x-1,y+1,ch);
+        dfs(x,y-1,ch);
+        dfs(x,y+1,ch);
+        dfs(x+1,y,ch);
+        //dfs(x+1,y-1,ch);
+        //dfs(x+1,y+1,ch);
+    }
+}
+
+bool cmp(pair<int, char> a, pair<int, char> b)
+{
+    return a.first>b.first || (a.first==b.first && a.second<b.second);
+}
+
+int main()
+{
+    int cas=1,t;
+    while(1)
+    {
+        scanf("%d%d",&n,&m);
+        if(n==0 && m==0)
+            break;
+        for(int i=0;i<n;i++)
+            cin>>g[i];
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(g[i][j]!='.')
+                {
+                    sum=0;
+                    char ch = g[i][j];
+                    dfs(i,j,ch);
+                    mp.push_back(make_pair(sum,ch));
+                }
+            }
+        }
+        sort(mp.begin(),mp.end(),cmp);
+        printf("Problem %d:\n",cas++);
+        for(int i=0;i<mp.size();i++)
+            printf("%c %d\n",mp[i].second,mp[i].first);
+        mp.clear();
+    }
+}
+
+
+
