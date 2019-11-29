@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char g[35][85];
+int n,m,sum;
+string str;
+vector<pair<int, char> >mp;
+
+
+void dfs(int x, int y, char ch)
+{
+    if(x>=0 && x<n && y>=0 && y<strlen(g[x]) && g[x][y]==' ')
+    {
+        g[x][y]=ch;
+        dfs(x-1,y,ch);
+        //dfs(x-1,y-1,ch);
+        //dfs(x-1,y+1,ch);
+        dfs(x,y-1,ch);
+        dfs(x,y+1,ch);
+        dfs(x+1,y,ch);
+        //dfs(x+1,y-1,ch);
+        //dfs(x+1,y+1,ch);
+    }
+}
+
+
+
+int main()
+{
+    int cas=1,t,x,y;
+    int i=0;
+    while(gets(g[i++]))
+    {
+        while(1)
+        {
+            gets(g[i]);
+            if(g[i][0]=='_')
+                break;
+            i++;
+        }
+        n=i;
+        for(i=0;i<n;i++)
+        {
+            for(int j=0;j<strlen(g[i]);j++)
+            {
+                if(g[i][j]!='X' && g[i][j]!=' ')
+                {
+                    char ch = g[i][j];
+                    g[i][j]=' ';
+                    dfs(i,j,ch);
+                }
+            }
+        }
+
+        for(int i=0;i<=n;i++)
+            puts(g[i]);
+
+        i=0;
+    }
+}
+
+
+
