@@ -1,0 +1,79 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+char g[100][100];
+int n,m,sum;
+string str;
+vector<pair<int, char> >mp;
+map<char,bool>mapc;
+
+
+void dfs(int x, int y, char ch)
+{
+    if(x>=0 && x<n && y>=0 && y<strlen(g[x]) && g[x][y]==ch)
+    {
+        g[x][y]='.';
+        dfs(x-1,y,ch);
+        //dfs(x-1,y-1,ch);
+        //dfs(x-1,y+1,ch);
+        dfs(x,y-1,ch);
+        dfs(x,y+1,ch);
+        dfs(x+1,y,ch);
+        //dfs(x+1,y-1,ch);
+        //dfs(x+1,y+1,ch);
+    }
+}
+
+bool cmp(pair<int, char>a, pair<int, char>b)
+{
+    return a.first>b.first || (a.first==b.first && a.second<b.second);
+}
+
+int main()
+{
+    int cas=1,t,x,y;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d",&n,&m);
+        for(int i=0;i<n;i++)
+        {
+            cin>>g[i];
+            for(int j=0;j<strlen(g[i]);j++)
+            {
+                if(mapc[g[i][j]]==false)
+                {
+                    mp.push_back(make_pair(0,g[i][j]));
+                    mapc[g[i][j]]=true;
+                }
+            }
+        }
+        for(int k=0;k<mp.size();k++)
+        {
+            int cnt=0;
+            for(int i=0;i<n;i++)
+            {
+                for(int j=0;j<m;j++)
+                {
+                    if(g[i][j]==mp[k].second)
+                    {
+                        cnt++;
+                        dfs(i,j,mp[k].second);
+                    }
+                }
+            }
+            mp[k].first=cnt;
+        }
+        sort(mp.begin(),mp.end(),cmp);
+
+        printf("World #%d\n",cas++);
+        for(int i=0;i<mp.size();i++)
+            printf("%c: %d\n",mp[i].second,mp[i].first);
+        mp.clear();
+        mapc.clear();
+    }
+}
+
+
+
