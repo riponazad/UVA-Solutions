@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<string.h>
+
+int g[10005][10005],sum;
+bool vis[10005];
+
+#define Qsize 10005
+int Q[Qsize], f=-1, r=-1;
+
+void push(int key)
+{
+    r = (r+1)%(Qsize+1);
+    Q[r]=key;
+}
+
+int pop()
+{
+    f = (f+1)%(Qsize+1);
+    return Q[f];
+}
+
+bool qEmpty()
+{
+    if(r==-1 || f==r)
+        return true;
+    return false;
+}
+void show()
+{
+    printf("queue: ");
+    for(int i=f+1;i<=r;i++)
+        printf("%d ",Q[i]);
+    printf("\n");
+}
+
+void bfs(int s, int n)
+{
+    //memset(vis, false, n+1);
+    push(s);
+    vis[s]=true;
+    sum++;
+    while(!qEmpty())
+    {
+        int u = pop();
+        for(int i=1;i<=n;i++)
+        {
+            if(g[u][i]==1 && !vis[i])
+            {
+                sum++;
+                vis[i]=true;
+                push(i);
+            }
+        }
+    }
+}
+int main()
+{
+   int cas,n,u,v,m,l;
+   scanf("%d",&cas);
+    while(cas--)
+    {
+        scanf("%d%d%d",&n,&m,&l);
+        memset(g,0,sizeof(g));
+        for(int i=0;i<m;i++)
+        {
+            scanf("%d%d",&u,&v);
+            g[u][v]=1;
+        }
+        memset(vis, false, n+1);
+        sum=0;
+        for(int i=0;i<l;i++)
+        {
+            scanf("%d",&u);
+            if(vis[u]!=true)
+            {
+                bfs(u,n);
+            }
+        }
+        printf("%d\n",sum);
+//        for(int i=1;i<=n;i++)
+//        {
+//            for(int j=1;j<=n;j++)
+//                printf("%d ",g[i][j]);
+//            printf("\n");
+//        }
+
+    }
+}
